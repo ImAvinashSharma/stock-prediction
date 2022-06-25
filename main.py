@@ -13,7 +13,13 @@ import matplotlib.pyplot as plt
 from ta.volatility import BollingerBands
 from ta.trend import MACD
 from ta.momentum import RSIIndicator
-
+#FB
+from prophet import Prophet
+import warnings
+warnings.filterwarnings('ignore')
+pd.core.common.is_list_like = pd.api.types.is_list_like
+import seaborn as sns
+import matplotlib.dates as mdates
 #cache the data set
 import requests_cache
 session = requests_cache.CachedSession('yfinance.cache')
@@ -76,25 +82,39 @@ rsi = RSIIndicator(df['Close']).rsi()
 
 
 # Plot MACD
-st.write('Stock Moving Average Convergence Divergence (MACD)')
+st.header('Stock Moving Average Convergence Divergence (MACD)')
 st.area_chart(macd)
 
 # Plot RSI
-st.write('Stock RSI ')
+st.header('Stock RSI ')
 st.line_chart(rsi,use_container_width=True)
 
 
 
-st.write(df)
+
+# forecast
+st.header('**Stock Forecast**')
+df.reset_index(inplace=True)
+data=df[["Date","Adj Close"]]
+data=data.rename(columns={"Date": "ds", "Adj Close": "y"})
+n=len(data)
+df_train=data[0:n//2]
+df_test=data[n//2:n]
+m = Prophet()
+m.fit(data)
+future = m.make_future_dataframe(periods=411)
+forecast = m.predict(future)
+fig1 = m.plot(forecast)
+st.write(fig1)
+
 # News
 st.header("**News About: " + cmp_name +"**")
 for info in tickerData.news:
   st.write("<a target='_blank' href='"+info['link']+"'>"+info["title"]+"</a>",unsafe_allow_html=True)
 
+st.write(df)
 
 # Api
 st.write('---')
-st.write(tickerData.info)
-
-
+# st.write(tickerData.info)
 #TODO remover unwanted line
