@@ -5,3 +5,10 @@ Rum Cmd - stock prediction
 pip install -r requirements.txt
 streamlit run main.py
 ```
+
+# Tdod
+
+* Build Sentiment Analysis
+* Build Stock Forecasting
+* Add Crypto
+* Improve Prediction and Performance
