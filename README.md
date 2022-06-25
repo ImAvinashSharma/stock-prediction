@@ -1,4 +1,4 @@
-# stock-prediction
+# Stock Prediction App (Poly-Invest)
 Rum Cmd - stock prediction
 
 ```sh
