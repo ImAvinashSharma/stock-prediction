@@ -12,3 +12,5 @@ streamlit run main.py
 * Build Stock Forecasting
 * Add Crypto
 * Improve Prediction and Performance
+* Picker
+* Data 

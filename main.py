@@ -20,6 +20,8 @@ warnings.filterwarnings('ignore')
 pd.core.common.is_list_like = pd.api.types.is_list_like
 import seaborn as sns
 import matplotlib.dates as mdates
+import requests
+from bs4 import BeautifulSoup
 #cache the data set
 import requests_cache
 session = requests_cache.CachedSession('yfinance.cache')
@@ -52,8 +54,8 @@ tickerSymbol = st.sidebar.selectbox('Stock ticker', ticker_list) # Select ticker
 tickerDuration = st.sidebar.selectbox('Time', ('1d','5d','1mo','3mo','6mo','1y','2y','5y','10y','ytd','max'))
 tickerData = yf.Ticker(tickerSymbol,session=session) # Get ticker data
 tickerDf = tickerData.history(period=tickerDuration,interval="1d", start=start_date, end=end_date)
-df = yf.download(tickerSymbol,start=start_date, end=end_date)
 #get the historical prices for this ticker
+df = yf.download(tickerSymbol,start=start_date, end=end_date)
 
 st.header("**About Company**")
 
@@ -100,12 +102,24 @@ data=data.rename(columns={"Date": "ds", "Adj Close": "y"})
 n=len(data)
 df_train=data[0:n//2]
 df_test=data[n//2:n]
+
 m = Prophet()
 m.fit(data)
 future = m.make_future_dataframe(periods=411)
 forecast = m.predict(future)
 fig1 = m.plot(forecast)
 st.write(fig1)
+
+# Crypto Fear & Greed Index
+page = requests.get('https://alternative.me/crypto/fear-and-greed-index/')
+soup = BeautifulSoup(page.content, 'html.parser')
+st.write("**Crypto Fear & Greed Index: **"+soup.select('div.fng-circle')[0].text)
+
+# Stock Fear & Greed Index
+page = requests.get('https://www.tickertape.in/market-mood-index')
+soup = BeautifulSoup(page.content, 'html.parser')
+st.write("**Stock Fear & Greed Index: **"+soup.select('span.number')[0].text)
+
 
 # News
 st.header("**News About: " + cmp_name +"**")
@@ -118,3 +132,4 @@ st.write(df)
 st.write('---')
 # st.write(tickerData.info)
 #TODO remover unwanted line
+
