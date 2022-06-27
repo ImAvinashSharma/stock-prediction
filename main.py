@@ -22,6 +22,8 @@ import seaborn as sns
 import matplotlib.dates as mdates
 import requests
 from bs4 import BeautifulSoup
+
+from textblob import TextBlob
 #cache the data set
 import requests_cache
 session = requests_cache.CachedSession('yfinance.cache')
@@ -91,9 +93,6 @@ st.area_chart(macd)
 st.header('Stock RSI ')
 st.line_chart(rsi,use_container_width=True)
 
-
-
-
 # forecast
 st.header('**Stock Forecast**')
 df.reset_index(inplace=True)
@@ -113,22 +112,35 @@ st.write(fig1)
 # Crypto Fear & Greed Index
 page = requests.get('https://alternative.me/crypto/fear-and-greed-index/')
 soup = BeautifulSoup(page.content, 'html.parser')
-st.write("**Crypto Fear & Greed Index: **"+soup.select('div.fng-circle')[0].text)
+C_Fear_Greed=soup.select('div.fng-circle')[0].text
+st.write("**Crypto Fear & Greed Index: **"+C_Fear_Greed)
 
 # Stock Fear & Greed Index
 page = requests.get('https://www.tickertape.in/market-mood-index')
 soup = BeautifulSoup(page.content, 'html.parser')
-st.write("**Stock Fear & Greed Index: **"+soup.select('span.number')[0].text)
-
+S_Fear_Greed =soup.select('span.number')[0].text
+st.write("**Stock Fear & Greed Index: **"+S_Fear_Greed)
 
 # News
 st.header("**News About: " + cmp_name +"**")
+raw_news_data = ""
 for info in tickerData.news:
   st.write("<a target='_blank' href='"+info['link']+"'>"+info["title"]+"</a>",unsafe_allow_html=True)
+  raw_news_data+=info["title"]+' '
 
-st.write(df)
+sentiment_data = TextBlob(raw_news_data).sentiment.polarity
+st.write("**Sentiment Analysis** "+str(sentiment_data))
+
+def Forecasting(sData,sFear_Greed):
+  if sData>0.1 and sFear_Greed>50:
+    st.write("Forecasting to Buy")
+  else:
+    st.write("Forecasting toSell")
+Forecasting(sentiment_data,float(S_Fear_Greed))
 
 # Api
+st.write('---')
+st.write(df)
 st.write('---')
 # st.write(tickerData.info)
 #TODO remover unwanted line

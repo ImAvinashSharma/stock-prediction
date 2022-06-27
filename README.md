@@ -8,9 +8,7 @@ streamlit run main.py
 
 # Todo
 
-* Build Sentiment Analysis
-* Build Stock Forecasting
 * Add Crypto
-* Improve Prediction and Performance
 * Picker
-* Data 
+* Learn to create multiple pages in streamlit
+* Improve Prediction and Performance

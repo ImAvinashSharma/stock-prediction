@@ -4,4 +4,4 @@ yfinance
 cufflinks
 requests-cache
 ta
-tweepy
+textblob
