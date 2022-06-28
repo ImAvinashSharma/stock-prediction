@@ -11,5 +11,9 @@ streamlit run main.py
 * Add Crypto
 * Picker
 * Learn to create multiple pages in streamlit
-* Improve Prediction and Performance
 * Forecasting need more performance improvements nd more ta/fa
+* Improve Prediction and Performance
+
+pari (Run this)
+  pip install --upgrade streamlit
+  else if not working re-install the app
