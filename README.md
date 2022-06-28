@@ -12,3 +12,4 @@ streamlit run main.py
 * Picker
 * Learn to create multiple pages in streamlit
 * Improve Prediction and Performance
+* Forecasting need more performance improvements nd more ta/fa

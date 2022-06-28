@@ -133,14 +133,15 @@ st.write("**Sentiment Analysis** "+str(sentiment_data))
 
 def Forecasting(sData,sFear_Greed):
   if sData>0.1 and sFear_Greed>50:
-    st.write("Forecasting to Buy")
+    st.write("Forecasting to Buy "+str(tickerData.info["currentPrice"]))
   else:
-    st.write("Forecasting toSell")
+    st.write("Forecasting to Sell "+str(tickerData.info["currentPrice"]))
 Forecasting(sentiment_data,float(S_Fear_Greed))
 
 # Api
 st.write('---')
-st.write(df)
+d = yf.Ticker("^NSEI")
+st.write(d.info)
 st.write('---')
 # st.write(tickerData.info)
 #TODO remover unwanted line
