@@ -21,4 +21,19 @@ st.set_page_config(
 st.header("Stock & Crypto Prediction App")
 
 st.sidebar.subheader('Query parameters')
+st.header("**Stock**")
+# Stock Fear & Greed Index
+page = requests.get('https://www.google.com/finance/markets/most-active?hl=en')
+soup = BeautifulSoup(page.content, 'html.parser')
+for i in range(0,min(5,len(soup.select('div.ZvmM7')))):
+  data = soup.select('div.ZvmM7')
+  st.write(data[i].text)
+
+st.header("**Crypto**")
+
+page = requests.get('https://www.google.com/finance/markets/cryptocurrencies?hl=en')
+soup = BeautifulSoup(page.content, 'html.parser')
+for i in range(0,min(5,len(soup.select('div.ZvmM7')))):
+  data = soup.select('div.ZvmM7')
+  st.write(data[i].text)
 

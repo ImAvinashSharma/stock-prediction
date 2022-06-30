@@ -138,7 +138,7 @@ def Forecasting(sData,sFear_Greed):
     st.write("Forecasting to Sell "+str(tickerData.info["currentPrice"]))
 
 Forecasting(sentiment_data,float(S_Fear_Greed))
-
+#??
 # Api
 st.write('---')
 d = yf.Ticker("^NSEI")
