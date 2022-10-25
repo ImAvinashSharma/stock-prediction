@@ -133,9 +133,9 @@ st.write("**Sentiment Analysis** "+str(sentiment_data))
 
 def Forecasting(sData,sFear_Greed):
   if sData>0.1 and sFear_Greed>50:
-    st.write("Forecasting to Buy "+str(tickerData.info["currentPrice"]))
+    st.write("Forecasting to Buy at"+str(tickerData.info["currentPrice"]))
   else:
-    st.write("Forecasting to Sell "+str(tickerData.info["currentPrice"]))
+    st.write("Forecasting to Sell at"+str(tickerData.info["currentPrice"]))
 
 Forecasting(sentiment_data,float(S_Fear_Greed))
 #??
